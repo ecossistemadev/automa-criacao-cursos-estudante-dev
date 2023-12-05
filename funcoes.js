@@ -6,12 +6,12 @@ function obterTextoBlocosDeLista(pagina, termo) {
   for (let indexFor = 1; indexFor < 10; indexFor++) {
     console.log("index pagina list:", (index + indexFor))
     block = pagina[(index + indexFor)]
-    if (block.type == "bulleted_list_item") {
+    if (block?.type === "bulleted_list_item") {
       return;
     }else{
       console.log("index pagina lastBlock:", (index + ((index + indexFor) - 1 )))
       let lastBlock = pagina[((index + indexFor) - 1 )]
-      if (block.type == "bulleted_list_item") {
+      if (block?.type === "bulleted_list_item") {
         indexFor = 11;
         return;
       }
@@ -26,7 +26,7 @@ function obterTextoBlocoDeCodigo(pagina, termo) {
   for (let indexFor = 1; indexFor < 5; indexFor++) {
     console.log("index pagina:", (index + indexFor))
     block = pagina[(index + indexFor)]
-    if (block.type == "code") {
+    if (block?.type === "code") {
       return;
     }
   }
