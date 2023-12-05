@@ -55,7 +55,10 @@ function obterTextoBlocosDeListaEmMarkdown(blocos, termo, simbolo = "*") {
         indexFor++;
       }
     } else {
-      markdown += `${simbolo} ${bloco?.bulleted_list_item?.rich_text?.[0]?.plain_text || ""}\n`;
+      let text = bloco?.bulleted_list_item?.rich_text?.[0]?.plain_text || null;
+      if(text){
+        markdown += `${simbolo} ${text || ""}\n`;
+      }
       indexFor++;
     }
   }
