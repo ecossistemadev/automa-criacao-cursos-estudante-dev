@@ -1,15 +1,30 @@
 // Funções reutilizaveis para os blocos de código JavaScript do Automa
 
+function obterTextoBlocosDeLista(pagina, termo) {
+  let index = obterIndexArrayPorTermo(pagina, termo);
+  let block = null;
+  for (let indexFor = 1; indexFor < 10; indexFor++) {
+    block = pagina[(index + indexFor)]
+    if (block.type == "bulleted_list_item") {
+      return;
+    }else{
+      let lastBlock = pagina[(index + indexFor) - 1 ]
+      if (block.type == "bulleted_list_item") {
+        indexFor = 11;
+        return;
+      }
+    }
+  }
+  return block?.bulleted_list_item?.rich_text?.[0]?.plain_text || null;
+}
+
 function obterTextoBlocoDeCodigo(pagina, termo) {
   let index = obterIndexArrayPorTermo(pagina, termo);
-  let block = pagina[(index + 1)]
-  if (block.type !== "code") {
-    block = pagina[(index + 2)]
-    if (block.type !== "code") {
-      block = pagina[(index + 3)]
-      if (block.type !== "code") {
-        block = pagina[(index + 4)]
-      }
+  let block = null;
+  for (let indexFor = 1; indexFor < 5; indexFor++) {
+    block = pagina[(index + indexFor)]
+    if (block.type == "code") {
+      return;
     }
   }
   return block?.code?.rich_text?.[0]?.plain_text || null;
