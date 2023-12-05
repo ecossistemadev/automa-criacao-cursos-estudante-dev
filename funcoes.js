@@ -1,5 +1,21 @@
 // Funções reutilizaveis para os blocos de código JavaScript do Automa
 
+function obterTextoBlocoDeLink(blocos, termo) {
+  let index = obterIndexArrayPorTermo(blocos, termo);
+  let bloco = null;
+
+  for (let indexFor = 1; indexFor < 10;) {
+    bloco = blocos[(index + indexFor)]
+
+    if (bloco?.type !== "bookmark") {
+      indexFor++;
+    } else {
+      indexFor = 11;
+    }
+  }
+  return bloco?.bookmark?.url || null;
+}
+
 function obterTextoBlocosDeListaEmArray(blocos, termo) {
   let index = obterIndexArrayPorTermo(blocos, termo);
   let lista = [];
@@ -45,7 +61,6 @@ function obterTextoBlocosDeListaEmMarkdown(blocos, termo, simbolo = "*") {
   }
   return markdown || null;
 }
-
 
 function obterTextoBlocoDeCodigo(blocos, termo) {
   let index = obterIndexArrayPorTermo(blocos, termo);
