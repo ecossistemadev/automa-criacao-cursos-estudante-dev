@@ -104,12 +104,18 @@ function buscaProfundaArrayJson(obj, termo) {
   return false;
 }
 
-function loadCSS(url) {
-  var link = document.createElement('link');
-  link.rel = 'stylesheet';
-  link.type = 'text/css';
-  link.href = url;
-  document.head.appendChild(link);
+function exbirErro(json) {
+  console.error(json);
+  document.querySelector("body").innerHTML = `
+  <center>
+    <h1 style="color: #fff">Ocorreu alguns erros, analise pelo console, ou pelos logs do automa!</h1>
+    <textarea style="color: #fff;background: transparent;width: 98%;height: 80vh;" disabled>
+      ${JSON.stringify(json, null, '\t')}
+    </textarea>
+    <br/><br/>
+    <button onClick="window.close()">Fechar</button>
+  </center>
+  `;
 }
 
 console.log("")
