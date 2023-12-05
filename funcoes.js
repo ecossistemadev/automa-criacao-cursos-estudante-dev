@@ -55,11 +55,11 @@ function obterTextoBlocosDeListaEmMarkdown(blocos, termo, simbolo = "*") {
         indexFor++;
       }
     } else {
-      markdown += `${simbolo} ${bloco?.bulleted_list_item?.rich_text?.[0]?.plain_text || null}\n`;
+      markdown += `${simbolo} ${bloco?.bulleted_list_item?.rich_text?.[0]?.plain_text || ""}\n`;
       indexFor++;
     }
   }
-  return markdown || null;
+  return markdown || "";
 }
 
 function obterTextoBlocoDeCodigo(blocos, termo) {
