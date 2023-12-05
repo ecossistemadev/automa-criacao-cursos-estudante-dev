@@ -1,36 +1,66 @@
 // Funções reutilizaveis para os blocos de código JavaScript do Automa
 
-function obterTextoBlocosDeLista(pagina, termo) {
-  let index = obterIndexArrayPorTermo(pagina, termo);
-  let block = null;
-  for (let indexFor = 1; indexFor < 10; indexFor++) {
-    console.log("index pagina list:", (index + indexFor))
-    block = pagina[(index + indexFor)]
-    if (block?.type === "bulleted_list_item") {
-      return;
-    }else{
-      console.log("index pagina lastBlock:", (index + ((index + indexFor) - 1 )))
-      let lastBlock = pagina[((index + indexFor) - 1 )]
-      if (block?.type === "bulleted_list_item") {
+function obterTextoBlocosDeListaEmArray(blocos, termo) {
+  let index = obterIndexArrayPorTermo(blocos, termo);
+  let lista = [];
+  let bloco = null;
+
+  for (let indexFor = 1; indexFor < 10;) {
+    bloco = blocos[(index + indexFor)]
+
+    if (bloco?.type !== "bulleted_list_item") {
+      let blocoAnterior = blocos[((index + indexFor) - 1)]
+      if (blocoAnterior?.type === "bulleted_list_item") {
         indexFor = 11;
-        return;
+      } else {
+        indexFor++;
       }
+    } else {
+      lista.push(bloco?.bulleted_list_item?.rich_text?.[0]?.plain_text || null);
+      indexFor++;
     }
   }
-  return block?.bulleted_list_item?.rich_text?.[0]?.plain_text || null;
+  return lista || null;
 }
 
-function obterTextoBlocoDeCodigo(pagina, termo) {
-  let index = obterIndexArrayPorTermo(pagina, termo);
-  let block = null;
-  for (let indexFor = 1; indexFor < 5; indexFor++) {
-    console.log("index pagina:", (index + indexFor))
-    block = pagina[(index + indexFor)]
-    if (block?.type === "code") {
-      return;
+function obterTextoBlocosDeListaEmMarkdown(blocos, termo, simbolo = "*") {
+  let index = obterIndexArrayPorTermo(blocos, termo);
+  let markdown = ``;
+  let bloco = null;
+
+  for (let indexFor = 1; indexFor < 10;) {
+    bloco = blocos[(index + indexFor)]
+
+    if (bloco?.type !== "bulleted_list_item") {
+      let blocoAnterior = blocos[((index + indexFor) - 1)]
+      if (blocoAnterior?.type === "bulleted_list_item") {
+        indexFor = 11;
+      } else {
+        indexFor++;
+      }
+    } else {
+      markdown += `${simbolo} ${bloco?.bulleted_list_item?.rich_text?.[0]?.plain_text || null}\n`;
+      indexFor++;
     }
   }
-  return block?.code?.rich_text?.[0]?.plain_text || null;
+  return markdown || null;
+}
+
+
+function obterTextoBlocoDeCodigo(blocos, termo) {
+  let index = obterIndexArrayPorTermo(blocos, termo);
+  let bloco = null;
+
+  for (let indexFor = 1; indexFor < 10;) {
+    bloco = blocos[(index + indexFor)]
+
+    if (bloco?.type !== "code") {
+      indexFor++;
+    } else {
+      indexFor = 11;
+    }
+  }
+  return bloco?.code?.rich_text?.[0]?.plain_text || null;
 }
 
 function obterIndexArrayPorTermo(pagina, termo) {
